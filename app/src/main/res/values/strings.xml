@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">videoPlayer</string>
+    <string-array name="TVNames">
+        <item>CCTV1</item>
+        <item>CCTV2</item>
+        <item>CCTV3</item>
+        <item>CCTV4</item>
+        <item>CCTV5</item>
+        <item>CCTV6</item>
+        <item>CCTV7</item>
+        <item>CCTV8</item>
+
+    </string-array>
+</resources>
