@@ -1,14 +1,11 @@
 package com.scujcc.videoplayer;
 
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -32,13 +29,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             public void onClick(View v) {
                 int index = itemViewHolder.getAdapterPosition();
                 TV tv2 =mTVList.get(index);
-
             }
         });
-
-
-
-
         return new itemViewHolder(itemView);
     }
 
@@ -47,7 +39,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         TV tv=mTVList.get(i);
         itemViewHolder.TVTitle.setText(tv.getTvTitle());
         itemViewHolder.TVImage.setImageResource(tv.getIconId());
-
+        itemViewHolder.TVDetail.setText(tv.getTvDetail());
 
         if (mOnItemClickListener != null) {
             itemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -77,13 +69,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     class itemViewHolder extends  RecyclerView.ViewHolder{
 
+
         private ImageView TVImage;
         private TextView TVTitle;
+        private TextView TVDetail;
 
         public itemViewHolder(@NonNull View itemView) {
             super(itemView);
             TVImage = itemView.findViewById(R.id.iv_icon);
             TVTitle = itemView.findViewById(R.id.tv_title);
+            TVDetail = itemView.findViewById(R.id.tv_detail);
         }
     }
 
@@ -96,7 +91,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         void onItemLongClick(View view, int position);
     }
 
+
     private OnItemClickListener mOnItemClickListener;
+
 
     public void setOnItemClickListener(OnItemClickListener mOnItemClickListener) {
         this.mOnItemClickListener = mOnItemClickListener;

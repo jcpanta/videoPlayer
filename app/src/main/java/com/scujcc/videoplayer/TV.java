@@ -1,14 +1,20 @@
 package com.scujcc.videoplayer;
 
-public class TV {
+import java.io.Serializable;
+
+public class TV implements Serializable {
     private int iconId;
     private String tvTitle;
+    private String tvDetail;
+    private String tvUrl;
 
-
-    public TV(int iconId, String tvTitle) {
-        this.iconId = iconId;
-        this.tvTitle = tvTitle;
+    public TV(int iconId, String tvTitle, String tvDetail,String tvUrl) {
+        this.iconId=iconId;
+        this.tvTitle=tvTitle;
+        this.tvDetail=tvDetail;
+        this.tvUrl = tvUrl;
     }
+
 
     public int getIconId() {
         return iconId;
@@ -28,5 +34,21 @@ public class TV {
 
     public int setIconId() {
         return 0;
+    }
+
+    public String getTvDetail() {
+        return tvDetail;
+    }
+
+    public void setTvDetail(String tvDetail) {
+        this.tvDetail = tvDetail;
+    }
+
+    public String getTvUrl() {
+        return tvUrl;
+    }
+
+    public void setTvUrl(String tvUrl) {
+        this.tvUrl = tvUrl;
     }
 }
