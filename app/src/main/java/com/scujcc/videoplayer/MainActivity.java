@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
             //单击
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getApplicationContext(),
-                        "click: " + position, Toast.LENGTH_SHORT).show();
+//               Toast.makeText(getApplicationContext(),
+//                        "click: " + position, Toast.LENGTH_SHORT).show();
 
                 String tvUrl =mTVList.get(position).getTvUrl();
                 Log.i("传递的视频url",tvUrl);
@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
             //长按
             @Override
             public void onItemLongClick(View view, int position) {
-                Toast.makeText(getApplicationContext(),
-                        "long click: " + position, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),
+//                        "long click: " + position, Toast.LENGTH_SHORT).show();
             }
         });
         recyclerView.setAdapter(adapter);

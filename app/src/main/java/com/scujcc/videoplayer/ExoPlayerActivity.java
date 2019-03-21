@@ -1,10 +1,20 @@
 package com.scujcc.videoplayer;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.PlaybackParameters;
@@ -25,18 +35,21 @@ public class ExoPlayerActivity extends AppCompatActivity {
     private String userAgent;
     private MediaSource mediaSource;
     private String TAG = "videoPlayer";
-
     private String tvUrl;
+    private NetWork mNetWork;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exo_player_view);
+
         userAgent = Util.getUserAgent(this, "videoPlayer");
         playerView =findViewById(R.id.playerView);
-
         tvUrl = getIntent().getStringExtra("tvUrl");
         Log.i("收到的URL",tvUrl);
+        initPlayer();
+        //检测网络是否连接
+        checkNet();
     }
     @Override
     protected void onStart() {
@@ -83,15 +96,10 @@ public class ExoPlayerActivity extends AppCompatActivity {
             player.setPlayWhenReady(true);
             playerView.setPlayer(player);
             factory = new DefaultDataSourceFactory(this, userAgent);
-
-
-
             mediaSource = new HlsMediaSource.Factory(factory)
                     .createMediaSource(Uri.parse(tvUrl));
         }
-
         player.prepare(mediaSource);
-
     }
     private void releasePlayer() {
         if (player != null) {
@@ -142,6 +150,68 @@ public class ExoPlayerActivity extends AppCompatActivity {
         @Override
         public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
             Log.d(TAG, "onPlaybackParametersChanged playbackParameters=" + playbackParameters);
+        }
+    }
+
+    private void checkNet(){
+        if (mNetWork.isNetConnected(this)){
+             //Toast.makeText(this,"网络连接",Toast.LENGTH_SHORT).show();
+                if (mNetWork.is3gConnected(this)){
+
+                    player.setPlayWhenReady(false);//暂停播放。
+
+                    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                    dialog.setMessage("警告当前使用的是数据连接");
+                    dialog.setCancelable(false);
+                    dialog.setPositiveButton("我是土豪有钱", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            player.setPlayWhenReady(true);
+                            dialog.cancel();
+                        }
+                    });
+                    dialog.setNegativeButton("设置网络", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
+                            startActivity(intent);
+                            dialog.cancel();
+                             //bug 不设网络返回自动播放。
+                        }
+                    });
+                    dialog.setNeutralButton("返回", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                            dialog.cancel();
+                        }
+                    });
+                    dialog.show();
+                }
+        }else {
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage("未连接网络。");
+            dialog.setCancelable(false);
+            dialog.setPositiveButton("返回", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                    dialog.cancel();
+                }
+
+            });
+            dialog.setNegativeButton("设置网络", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
+                    startActivity(intent);
+                    dialog.cancel();
+                }
+            });
+            dialog.show();
+
+           // Toast.makeText(this,"未连接网络",Toast.LENGTH_SHORT).show();
         }
     }
 }
