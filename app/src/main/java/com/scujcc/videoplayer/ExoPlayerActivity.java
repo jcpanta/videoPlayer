@@ -1,5 +1,6 @@
 package com.scujcc.videoplayer;
 
+import android.app.usage.NetworkStatsManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -7,12 +8,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 
+import android.net.wifi.WifiManager;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Filter;
 import android.widget.Toast;
 
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -22,6 +25,7 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
@@ -29,7 +33,9 @@ import com.google.android.exoplayer2.util.Util;
 
 
 public class ExoPlayerActivity extends AppCompatActivity {
-    private SimpleExoPlayer player;
+
+    public static ExoPlayerActivity instance;
+    public static SimpleExoPlayer player;
     private PlayerView playerView;
     private DataSource.Factory factory;
     private String userAgent;
@@ -42,14 +48,19 @@ public class ExoPlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exo_player_view);
-
+        instance = this;
+        checkNet2();
         userAgent = Util.getUserAgent(this, "videoPlayer");
         playerView =findViewById(R.id.playerView);
         tvUrl = getIntent().getStringExtra("tvUrl");
         Log.i("收到的URL",tvUrl);
         initPlayer();
         //检测网络是否连接
-        checkNet();
+       // checkNet();
+
+
+
+
     }
     @Override
     protected void onStart() {
@@ -173,7 +184,7 @@ public class ExoPlayerActivity extends AppCompatActivity {
                     dialog.setNegativeButton("设置网络", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
+                            Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
                             startActivity(intent);
                             dialog.cancel();
                              //bug 不设网络返回自动播放。
@@ -189,7 +200,6 @@ public class ExoPlayerActivity extends AppCompatActivity {
                     dialog.show();
                 }
         }else {
-
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setMessage("未连接网络。");
             dialog.setCancelable(false);
@@ -204,14 +214,22 @@ public class ExoPlayerActivity extends AppCompatActivity {
             dialog.setNegativeButton("设置网络", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS);
+                    Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
                     startActivity(intent);
                     dialog.cancel();
                 }
             });
             dialog.show();
-
            // Toast.makeText(this,"未连接网络",Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void checkNet2(){
+        IntentFilter filter = new IntentFilter();
+          filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+          filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+
+        registerReceiver(new NetworkConnectChangedReceiver(), filter);
+    }
+
 }
