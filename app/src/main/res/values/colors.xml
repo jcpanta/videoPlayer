@@ -9,5 +9,6 @@
   <color name="primaryTextColor">#FFFFFF</color>
   <color name="secondaryTextColor">#ffffff</color>
   <color name="colorAccent">#D81B60</color>
+  <color name="imgBGColor">#00CF1010</color>
 
 </resources>

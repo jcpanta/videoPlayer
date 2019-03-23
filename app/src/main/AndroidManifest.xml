@@ -6,22 +6,23 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".qidongActivity">
+        <activity android:name=".QiDong2Activity"  android:theme="@style/Theme_AppLauncher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ExoPlayerActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".qidongActivity">
 
         </activity>
+        <activity android:name=".ExoPlayerActivity" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">videoPlayer</string>
+    <string name="app_name">PanTaTV</string>
     <string-array name="TVNames">
         <item>CCTV1 综合</item>
         <item>CCTV2 财经</item>
