@@ -13,6 +13,8 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Filter;
@@ -31,6 +33,8 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import java.util.List;
+
 
 public class ExoPlayerActivity extends AppCompatActivity {
 
@@ -43,12 +47,16 @@ public class ExoPlayerActivity extends AppCompatActivity {
     private String TAG = "videoPlayer";
     private String tvUrl;
     private NetWork mNetWork;
-
+    private RecyclerView pingLunList;
+    private PingLunListAdapter mPingLunListAdapter;
+    private List<PingLun> mPingLunData;
+    public String tvName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exo_player_view);
         instance = this;
+
         checkNet2();
         userAgent = Util.getUserAgent(this, "videoPlayer");
         playerView =findViewById(R.id.playerView);
@@ -58,8 +66,12 @@ public class ExoPlayerActivity extends AppCompatActivity {
         //检测网络是否连接
        // checkNet();
 
-
-
+        //评论
+        initPingLunDate();
+        pingLunList =findViewById(R.id.recyclerView_pingLun);
+        mPingLunListAdapter= new PingLunListAdapter(this.mPingLunData);
+        pingLunList.setAdapter(mPingLunListAdapter);
+        pingLunList.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
     }
     @Override
@@ -163,7 +175,7 @@ public class ExoPlayerActivity extends AppCompatActivity {
             Log.d(TAG, "onPlaybackParametersChanged playbackParameters=" + playbackParameters);
         }
     }
-
+    //未使用
     private void checkNet(){
         if (mNetWork.isNetConnected(this)){
              //Toast.makeText(this,"网络连接",Toast.LENGTH_SHORT).show();
@@ -230,6 +242,15 @@ public class ExoPlayerActivity extends AppCompatActivity {
           filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
 
         registerReceiver(new NetworkConnectChangedReceiver(), filter);
+    }
+
+    private void initPingLunDate(){
+        PingLunDataLab lab = new PingLunDataLab(this);
+
+        tvName = getIntent().getStringExtra("tvName");
+        Log.d(TAG,"传递的电视名字"+tvName);
+
+        this.mPingLunData = lab.getPingLuns("pingLunDatas.json",tvName);
     }
 
 }

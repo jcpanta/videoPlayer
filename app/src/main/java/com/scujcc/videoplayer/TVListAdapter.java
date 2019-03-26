@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.itemViewHolder> {
+public class TVListAdapter extends RecyclerView.Adapter<TVListAdapter.itemViewHolder> {
     private List<TV> mTVList;
 
-    public MyRecyclerViewAdapter(List<TV> tvList) {
+    public TVListAdapter(List<TV> tvList) {
         this.mTVList= tvList;
     }
 
@@ -37,6 +37,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public void onBindViewHolder( final itemViewHolder itemViewHolder, int i) {
         TV tv=mTVList.get(i);
+
         itemViewHolder.TVTitle.setText(tv.getTvTitle());
         itemViewHolder.TVImage.setImageResource(tv.getIconId());
         itemViewHolder.TVDetail.setText(tv.getTvDetail());

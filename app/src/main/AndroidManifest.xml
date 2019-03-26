@@ -11,18 +11,20 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".QiDong2Activity"  android:theme="@style/Theme_AppLauncher">
+        <activity
+            android:name=".QiDong2Activity"
+            android:theme="@style/Theme_AppLauncher">
+
+        </activity>
+        <activity android:name=".qidongActivity"></activity>
+        <activity android:name=".ExoPlayerActivity" />
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".qidongActivity">
-
-        </activity>
-        <activity android:name=".ExoPlayerActivity" />
-        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

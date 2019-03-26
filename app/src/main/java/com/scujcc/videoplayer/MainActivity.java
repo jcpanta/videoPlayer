@@ -7,14 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
-import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.ui.PlayerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] TVDetial;
     private String[] TVUrl;
     private List<TV> mTVList = new ArrayList<TV>();
-    private MyRecyclerViewAdapter adapter;
-
-
-
+    private TVListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         //recyclerView的适配器 adapter
-        adapter = new MyRecyclerViewAdapter(mTVList);
+        adapter = new TVListAdapter(mTVList);
         //item点击
-        adapter.setOnItemClickListener(new MyRecyclerViewAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new TVListAdapter.OnItemClickListener() {
             //单击
             @Override
             public void onItemClick(View view, int position) {
@@ -52,9 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
                 String tvUrl =mTVList.get(position).getTvUrl();
                 Log.i("传递的视频url",tvUrl);
+                String tvName = mTVList.get(position).getTvTitle();
 
                 Intent intent = new Intent(MainActivity.this, ExoPlayerActivity.class);
                 intent.putExtra("tvUrl",tvUrl);
+                intent.putExtra("tvName",tvName);
                 startActivity(intent);
             }
             //长按
@@ -90,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         mTVList.add(gameTV);
         TV gongfuTV= new TV(R.drawable.gongfu,TVNames[7],TVDetial[7],TVUrl[7]);
         mTVList.add(gongfuTV);
-
     }
 
 
