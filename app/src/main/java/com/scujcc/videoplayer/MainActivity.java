@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.youth.banner.Banner;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,15 +21,29 @@ public class MainActivity extends AppCompatActivity {
     private String[] TVUrl;
     private List<TV> mTVList = new ArrayList<TV>();
     private TVListAdapter adapter;
+    Banner banner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recycler_view);
+        setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.recyclerView);
 
         initVideoDatas();
 
+        List images = new ArrayList();
+
+        images.add(R.drawable.cctv1);
+        images.add(R.drawable.cctv2);
+        images.add(R.drawable.cctv3);
+        images.add(R.drawable.cctv4);
+        banner= (Banner)findViewById(R.id.banner);
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //设置图片集合
+        banner.setImages(images);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
 
         //recyclerView的适配器 adapter
         adapter = new TVListAdapter(mTVList);
@@ -81,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
         mTVList.add(gameTV);
         TV gongfuTV= new TV(R.drawable.gongfu,TVNames[7],TVDetial[7],TVUrl[7]);
         mTVList.add(gongfuTV);
+        TV cctv12=new TV(R.drawable.hunan,TVNames[9],TVDetial[9],TVUrl[8]);
+        mTVList.add(cctv12);
     }
 
 

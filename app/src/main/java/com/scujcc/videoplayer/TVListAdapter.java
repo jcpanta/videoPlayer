@@ -19,7 +19,7 @@ public class TVListAdapter extends RecyclerView.Adapter<TVListAdapter.itemViewHo
     @NonNull
     @Override
     public itemViewHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, int i) {
-        final View itemView =View.inflate(viewGroup.getContext(),R.layout.iteam_recyclerview,null);
+        final View itemView =View.inflate(viewGroup.getContext(),R.layout.iteam_recyclerview_main,null);
 
         //单击事件
         final itemViewHolder itemViewHolder = new itemViewHolder(itemView);
