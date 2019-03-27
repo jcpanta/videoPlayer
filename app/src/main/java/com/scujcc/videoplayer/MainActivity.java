@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,58 @@ public class MainActivity extends AppCompatActivity {
         banner.setImages(images);
         //banner设置方法全部调用完毕时最后调用
         banner.start();
+        //增加点击事件
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                //Toast.makeText(MainActivity.this, "position" + position, Toast.LENGTH_SHORT).show();
+                switch (position){
+                    case 0:
+                        String tvUrl =mTVList.get(position).getTvUrl();
+                        Log.i("传递的视频url",tvUrl);
+
+                        Intent intent = new Intent(MainActivity.this, ExoPlayerActivity.class);
+                        intent.putExtra("tvUrl",tvUrl);
+                        String tvName = mTVList.get(position).getTvTitle();
+                        intent.putExtra("tvName",tvName);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        String tvUrl2 =mTVList.get(position).getTvUrl();
+                        Log.i("传递的视频url",tvUrl2);
+
+                        Intent intent2 = new Intent(MainActivity.this, ExoPlayerActivity.class);
+                        intent2.putExtra("tvUrl",tvUrl2);
+                        String tvName1 = mTVList.get(position).getTvTitle();
+                        intent2.putExtra("tvName",tvName1);
+                        startActivity(intent2);
+                        //startActivity(new Intent(MainActivity.this,ExoPlayerActivity.class));
+                        break;
+                    case 2:
+                        String tvUrl3 =mTVList.get(position).getTvUrl();
+                        Log.i("传递的视频url",tvUrl3);
+
+                        Intent intent3 = new Intent(MainActivity.this, ExoPlayerActivity.class);
+                        intent3.putExtra("tvUrl",tvUrl3);
+                        String tvName2= mTVList.get(position).getTvTitle();
+                        intent3.putExtra("tvName",tvName2);
+                        startActivity(intent3);
+                        break;
+                    case 3:
+                        String tvUrl4 =mTVList.get(position).getTvUrl();
+                        Log.i("传递的视频url",tvUrl4);
+
+                        Intent intent4 = new Intent(MainActivity.this, ExoPlayerActivity.class);
+                        intent4.putExtra("tvUrl",tvUrl4);
+                        String tvName3 = mTVList.get(position).getTvTitle();
+                        intent4.putExtra("tvName",tvName3);
+                        startActivity(intent4);
+                        break;
+                }
+
+
+            }
+        });
 
         //recyclerView的适配器 adapter
         adapter = new TVListAdapter(mTVList);

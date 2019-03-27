@@ -23,8 +23,6 @@ public class QiDong2Activity extends AppCompatActivity {
 
         starAnimation();
 
-
-
         Integer time = 4000;    //设置等待时间，单位为毫秒
         Handler handler = new Handler();
         //当计时结束时，跳转至主界面
@@ -57,8 +55,6 @@ public class QiDong2Activity extends AppCompatActivity {
                 0,3).setDuration(2500);
         ObjectAnimator logoAnimatorSclaeY= ObjectAnimator.ofFloat(logoImageView,"scaleY",
                 0,3).setDuration(2500);
-
-
         animatorSet
                 .play(yuanAnimator)
                 .with(yuanAnimator2)
